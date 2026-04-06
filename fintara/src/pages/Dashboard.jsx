@@ -7,7 +7,7 @@ import {
 } from 'recharts'
 
 import Transactions from './Transactions'
-import Insights from './insights.jsx'
+import Insights from './Insights.jsx'
 
 import {
   INITIAL_TRANSACTIONS,
