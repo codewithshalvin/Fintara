@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar.jsx'
 import Coin3D from '../components/Coin3D.jsx'
 import ServicesSection from '../components/ServicesSection.jsx'
 
-/* ─── illustration styles only ───────────────────── */
+/* ─── illustration + hero responsive styles ──────── */
 const illCSS = `
   @keyframes illFloat1    { 0%,100%{transform:translateY(0px)}  50%{transform:translateY(-8px)}  }
   @keyframes illFloat2    { 0%,100%{transform:translateY(0px)}  50%{transform:translateY(-5px)}  }
@@ -18,7 +18,6 @@ const illCSS = `
     100% { opacity:0;  transform:translateY(-36px) scale(.6); }
   }
 
-  /* illustration wrapper — sits inside the existing coin-wrapper */
   .ill-layer {
     position: absolute;
     inset: -80px;
@@ -26,7 +25,6 @@ const illCSS = `
     z-index: 1;
   }
 
-  /* floating card base */
   .ill-card {
     position: absolute;
     background: var(--bg-card);
@@ -53,15 +51,8 @@ const illCSS = `
   .ill-market   { bottom: 4%; right: 2%;  animation: illFloat3 3.8s ease-in-out infinite .8s; }
   .ill-donut    { top: 2%;    right: -2%; animation: illFloat1 4.5s ease-in-out infinite .2s; }
 
-  .ill-bars {
-    display: flex; align-items: flex-end; gap: 3px;
-    height: 44px; padding-top: 4px;
-  }
-  .ill-bar {
-    width: 10px; border-radius: 2px 2px 0 0;
-    transform-origin: bottom;
-    animation: illBarGrow .8s ease both;
-  }
+  .ill-bars { display: flex; align-items: flex-end; gap: 3px; height: 44px; padding-top: 4px; }
+  .ill-bar  { width: 10px; border-radius: 2px 2px 0 0; transform-origin: bottom; animation: illBarGrow .8s ease both; }
 
   .ill-spark { display: block; }
   .ill-spark-path { stroke-dasharray:200; stroke-dashoffset:200; animation:illLineDraw 1.2s ease .6s forwards; }
@@ -98,9 +89,127 @@ const illCSS = `
     pointer-events: none;
     animation: illRupee 2.8s ease-in-out infinite;
   }
+
+  /* ── HERO RESPONSIVE ── */
+
+  /* base hero layout: side-by-side */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+    gap: 2rem;
+  }
+
+  .hero-content {
+    flex: 1;
+    max-width: 560px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .coin-wrapper {
+    flex-shrink: 0;
+    width: 420px;
+    height: 420px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* tablet: shrink coin side */
+  @media (max-width: 1100px) {
+    .hero { padding: 0 2.5rem; }
+    .coin-wrapper { width: 340px; height: 340px; }
+  }
+
+  /* landscape mobile / small tablet: hide coin, center content */
+  @media (max-width: 900px) {
+    .hero {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem 2rem 4rem;
+      min-height: auto;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 100%;
+    }
+
+    .coin-wrapper { display: none; }
+
+    .hero-cta {
+      justify-content: center;
+    }
+
+    .hero-stats {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 5rem 1.25rem 3rem; }
+
+    .hero-title {
+      font-size: clamp(2rem, 9vw, 3rem) !important;
+    }
+
+    .hero-sub {
+      font-size: .93rem !important;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      gap: .75rem !important;
+    }
+
+    .btn-hero {
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-stats {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem !important;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+  }
+
+  /* footer responsive */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .footer {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+    }
+    .footer-links {
+      justify-content: center;
+    }
+  }
 `
 
-/* ─── bar heights for portfolio card ─────────────── */
 const BARS = [
   { h:28, color:'var(--accent)',        delay:'.15s', op:'0.5' },
   { h:42, color:'var(--accent)',        delay:'.25s', op:'1'   },
@@ -110,23 +219,19 @@ const BARS = [
   { h:64, color:'var(--accent-bright)', delay:'.65s', op:'0.8' },
 ]
 
-/* ─── financial illustration ─────────────────────── */
 function FinanceIllustration() {
   return (
     <>
       <div className="ill-glow" />
 
-      {/* scattered small coins */}
       <div className="ill-coin" style={{width:28,height:28,top:'18%',left:'4%',  fontSize:13,animation:'illFloat2 3.2s ease-in-out infinite'}}>₹</div>
       <div className="ill-coin" style={{width:22,height:22,top:'72%',left:'6%',  fontSize:10,animation:'illFloat3 4.1s ease-in-out infinite .7s'}}>₹</div>
       <div className="ill-coin" style={{width:18,height:18,top:'62%',right:'4%', fontSize:8, animation:'illFloat1 3.7s ease-in-out infinite 1.1s'}}>₹</div>
       <div className="ill-coin" style={{width:14,height:14,top:'22%',right:'8%', fontSize:7, animation:'illFloat2 3s   ease-in-out infinite .3s'}}>₹</div>
 
-      {/* floating ₹ symbols */}
       <span className="ill-rsym" style={{fontSize:'1.1rem',left:'12%', top:'55%',animationDelay:'0s'}}>₹</span>
       <span className="ill-rsym" style={{fontSize:'.85rem',right:'10%',top:'65%',animationDelay:'1.1s'}}>₹</span>
 
-      {/* upward trend arrow SVG */}
       <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:0}} viewBox="0 0 480 480" fill="none">
         <defs>
           <linearGradient id="arrowG" x1="0" y1="1" x2="1" y2="0">
@@ -145,7 +250,6 @@ function FinanceIllustration() {
         <polygon points="390,170 378,186 402,186" fill="var(--accent-bright)" opacity=".4"/>
       </svg>
 
-      {/* RETURNS card */}
       <div className="ill-card ill-returns">
         <div className="ill-card-lbl">Returns</div>
         <div className="ill-card-val">+24.8%</div>
@@ -157,7 +261,6 @@ function FinanceIllustration() {
         </svg>
       </div>
 
-      {/* PORTFOLIO card */}
       <div className="ill-card ill-portfolio">
         <div className="ill-card-lbl">Portfolio</div>
         <div className="ill-bars">
@@ -168,7 +271,6 @@ function FinanceIllustration() {
         </div>
       </div>
 
-      {/* MARKET TREND card */}
       <div className="ill-card ill-market" style={{width:110}}>
         <div className="ill-card-lbl">Market Trend</div>
         <svg width="90" height="34">
@@ -184,7 +286,6 @@ function FinanceIllustration() {
         </svg>
       </div>
 
-      {/* DONUT card */}
       <div className="ill-card ill-donut" style={{padding:'10px 12px'}}>
         <div className="ill-card-lbl" style={{marginBottom:6}}>Allocation</div>
         <svg width="76" height="76" viewBox="0 0 76 76">
@@ -202,7 +303,6 @@ function FinanceIllustration() {
   )
 }
 
-/* ─── floating particles ──────────────────────────── */
 function Particles() {
   return (
     <div className="particles">
@@ -219,7 +319,6 @@ function Particles() {
   )
 }
 
-/* ─── main ────────────────────────────────────────── */
 export default function LandingPage() {
   const servicesRef = useRef(null)
   const coinWrapRef = useRef(null)
@@ -253,7 +352,7 @@ export default function LandingPage() {
       <style>{illCSS}</style>
       <Navbar onServicesClick={handleServicesClick} />
 
-      {/* ── HERO ──────────────────────────────────── */}
+      {/* ── HERO ── */}
       <section className="hero">
         <div className="hero-bg" />
         <Particles />
@@ -296,10 +395,10 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* coin-wrapper with illustration behind */}
+        {/* coin-wrapper — hidden on mobile via CSS */}
         {coinVisible && (
           <div className="coin-wrapper" ref={coinWrapRef}
-            style={{position:'absolute', overflow:'visible'}}>
+            style={{overflow:'visible'}}>
 
             <div className="ill-layer">
               <FinanceIllustration />
@@ -314,10 +413,10 @@ export default function LandingPage() {
         )}
       </section>
 
-      {/* ── SERVICES ──────────────────────────────── */}
+      {/* ── SERVICES ── */}
       <ServicesSection servicesRef={servicesRef} />
 
-      {/* ── FOOTER ────────────────────────────────── */}
+      {/* ── FOOTER ── */}
       <footer className="footer">
         <p className="footer-text">© 2025 Fintara Inc. All rights reserved.</p>
         <ul className="footer-links">

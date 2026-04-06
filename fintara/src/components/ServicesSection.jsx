@@ -5,13 +5,6 @@ import {
   Wifi, ChevronLeft, ChevronRight, PieChart,
 } from 'lucide-react'
 
-/* ─────────────────────────────────────────────────────
-   CSS — fully inherits global CSS variables from index.css
-   (--font-display, --font-body, --accent, --accent-bright,
-    --accent-2, --bg-primary, --bg-card, --bg-glass,
-    --border, --text-primary, --text-secondary, --text-muted,
-    --coin-glow, --grid-line, --shadow, --transition)
-   ───────────────────────────────────────────────────── */
 const css = `
   @keyframes ss-up    { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
   @keyframes ss-left  { from{opacity:0;transform:translateX(-36px)} to{opacity:1;transform:translateX(0)} }
@@ -50,7 +43,6 @@ const css = `
     to   { transform:translateX(-50%) }
   }
 
-  /* ── section — inherits global bg ── */
   .ss-section {
     position:relative;
     overflow:hidden;
@@ -68,13 +60,11 @@ const css = `
     background-size:55px 55px;
   }
 
-  /* top rule — matches global section separator */
   .ss-topline {
     height:1px;
     background:linear-gradient(90deg, transparent, var(--accent), transparent);
   }
 
-  /* ambient glow blobs */
   .ss-blob {
     position:absolute;border-radius:50%;
     filter:blur(100px);pointer-events:none;
@@ -90,14 +80,12 @@ const css = `
     opacity:.5;
   }
 
-  /* ── inner wrap ── */
   .ss-wrap {
     position:relative;z-index:2;
     max-width:1200px;margin:0 auto;
     padding:5rem 4rem 0;
   }
 
-  /* ── header ── */
   .ss-hdr { text-align:center;margin-bottom:4rem;opacity:0; }
   .ss-hdr.in { animation:ss-up .6s ease both; }
 
@@ -141,7 +129,7 @@ const css = `
     gap:28px;align-items:start;
   }
 
-  /* ── WALLET (left, sticky) ── */
+  /* ── WALLET ── */
   .ss-wallet-col { position:sticky;top:2rem;opacity:0; }
   .ss-wallet-col.in { animation:ss-left .6s ease .1s both; }
 
@@ -155,7 +143,6 @@ const css = `
     background:linear-gradient(90deg,var(--border),transparent);
   }
 
-  /* wallet card — bg-card, border, shadow from global */
   .ss-wallet {
     background:var(--bg-card);
     border:1px solid var(--border);
@@ -183,7 +170,6 @@ const css = `
     pointer-events:none;
   }
 
-  /* ripple rings */
   .sw-splash { position:absolute;top:50%;left:50%;pointer-events:none;z-index:10; }
   .sw-ring {
     position:absolute;border-radius:50%;
@@ -191,7 +177,6 @@ const css = `
     transform:translate(-50%,-50%) scale(0);transition:none;
   }
 
-  /* wallet internals */
   .sw-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem; }
   .sw-chip {
     width:42px;height:30px;border-radius:6px;
@@ -250,7 +235,6 @@ const css = `
     box-shadow:none;
   }
 
-  /* stats grid */
   .sw-stats {
     display:grid;grid-template-columns:1fr 1fr;
     gap:9px;margin-top:10px;
@@ -272,7 +256,7 @@ const css = `
   .sw-stat-val.up   { color:#4CAF50; }
   .sw-stat-val.acc  { color:var(--accent-bright); }
 
-  /* ── CAROUSEL (right) ── */
+  /* ── CAROUSEL ── */
   .ss-carousel { display:flex;flex-direction:column;gap:18px;opacity:0; }
   .ss-carousel.in { animation:ss-right .6s ease .15s both; }
 
@@ -291,7 +275,6 @@ const css = `
   }
   .ss-ctrl-btn:hover { background:var(--accent);border-color:var(--accent);color:var(--bg-primary); }
 
-  /* sliding card */
   .ss-card-wrap { overflow:hidden;border-radius:20px;min-height:210px; }
   .ss-scard {
     background:var(--bg-card);border:1px solid var(--border);
@@ -347,7 +330,6 @@ const css = `
   .ss-scard:hover .ss-card-badge { border-color:var(--accent); }
   .ss-slide-in { animation:ss-card-in .42s cubic-bezier(.22,.68,0,1.15) both; }
 
-  /* dots */
   .ss-dots { display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px; }
   .ss-dot {
     width:6px;height:6px;border-radius:50%;
@@ -358,7 +340,6 @@ const css = `
     background:var(--accent);box-shadow:0 0 7px var(--coin-glow);
   }
 
-  /* mini cards */
   .ss-mini-row { display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px; }
   .ss-mini {
     background:var(--bg-card);border:1px solid var(--border);
@@ -414,22 +395,93 @@ const css = `
     pointer-events:none;z-index:9999;transition:none;
   }
 
-  /* ── RESPONSIVE ── */
-  @media(max-width:960px){
-    .ss-wrap { padding:4rem 2rem 0; }
-    .ss-main { grid-template-columns:1fr; }
-    .ss-wallet-col { position:static; }
-    .ss-feats { grid-template-columns:1fr; }
-    .ss-mini-row { grid-template-columns:1fr; }
-    .ss-feats-wrap { padding:0 2rem; }
+  /* ═══════════════════════════════
+     RESPONSIVE BREAKPOINTS
+     ═══════════════════════════════ */
+
+  /* ── tablet: 960px ── */
+  @media (max-width: 960px) {
+    .ss-wrap {
+      padding: 4rem 2rem 0;
+    }
+
+    /* stack wallet above carousel */
+    .ss-main {
+      grid-template-columns: 1fr;
+    }
+
+    /* wallet: unstick, limit width */
+    .ss-wallet-col {
+      position: static;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .ss-mini-row {
+      grid-template-columns: 1fr 1fr;
+    }
   }
-  @media(max-width:600px){
-    .ss-wrap { padding:3.5rem 1.2rem 0; }
-    .ss-feats-wrap { padding:0 1.2rem; }
+
+  /* ── large mobile: 700px ── */
+  @media (max-width: 700px) {
+    .ss-wrap { padding: 3.5rem 1.5rem 0; }
+
+    .ss-h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+
+    /* wallet full-width */
+    .ss-wallet-col { max-width: 100%; }
+
+    /* wallet amount slightly smaller */
+    .sw-amt { font-size: 1.8rem; }
+
+    /* collapse the 3 action buttons to 2 rows */
+    .sw-btns { flex-wrap: wrap; }
+    .sw-btn { min-width: calc(50% - .25rem); }
+  }
+
+  /* ── small mobile: 480px ── */
+  @media (max-width: 480px) {
+    .ss-wrap { padding: 3rem 1rem 0; }
+
+    /* header */
+    .ss-eyebrow { font-size: .65rem; }
+    .ss-sub { font-size: .9rem; }
+
+    /* wallet */
+    .ss-wallet { padding: 1.4rem 1.2rem; border-radius: 18px; }
+    .sw-amt { font-size: 1.6rem; }
+    .sw-btns { flex-direction: column; }
+    .sw-btn { width: 100%; }
+
+    /* stats: 2-col stays fine */
+
+    /* carousel card */
+    .ss-scard { padding: 1.4rem 1.2rem; border-radius: 16px; }
+    .ss-card-title { font-size: 1.1rem; }
+    .ss-card-desc { font-size: .82rem; }
+
+    /* mini cards: stack to single column */
+    .ss-mini-row { grid-template-columns: 1fr; }
+
+    /* ticker: slightly smaller */
+    .ss-ticker-item { font-size: .72rem; }
+    .ss-ticker-shell { padding: .65rem 0; }
+
+    /* reduce bottom padding */
+    .ss-section { padding-bottom: 3rem; }
+  }
+
+  /* ── tiny mobile: 360px ── */
+  @media (max-width: 360px) {
+    .ss-wrap { padding: 2.5rem .75rem 0; }
+    .ss-wallet { padding: 1.2rem 1rem; }
+    .sw-stats { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .sw-stat { padding: .6rem .7rem; }
+    .sw-stat-val { font-size: .9rem; }
   }
 `
 
-// ── SERVICES — mapped from Dashboard's 3 sections + sub-features ──────────
 const SERVICES = [
   {
     Icon: BarChart2,
@@ -475,7 +527,6 @@ const SERVICES = [
   },
 ]
 
-// ── MINI CARDS — highlight Admin vs Viewer role system ────────────────────
 const MINI = [
   {
     Icon: ShieldCheck,
@@ -489,7 +540,6 @@ const MINI = [
   },
 ]
 
-// ── TICKER — dashboard KPIs scrolling as live stats ───────────────────────
 const TICKER = [
   ['BALANCE',    '₹20.2L',   '+2.4%',  true ],
   ['INCOME',     '₹5.99L',   '+12.1%', true ],
@@ -503,7 +553,6 @@ const TICKER = [
 
 const RINGS = [76, 128, 180]
 
-/* ─── Component ─────────────────────────────────── */
 const Inner = forwardRef(function Inner(_, ref) {
   const secRef   = useRef(null)
   const walRef   = useRef(null)
@@ -520,7 +569,6 @@ const Inner = forwardRef(function Inner(_, ref) {
   const [coinSt,   setCoinSt]   = useState({ display: 'none' })
   const [idx,      setIdx]      = useState(0)
 
-  /* scroll reveal */
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) {
@@ -533,7 +581,6 @@ const Inner = forwardRef(function Inner(_, ref) {
     return () => io.disconnect()
   }, [])
 
-  /* auto-slide */
   useEffect(() => {
     if (!vis) return
     timer.current = setInterval(() => {
@@ -546,7 +593,6 @@ const Inner = forwardRef(function Inner(_, ref) {
   const goPrev = ()  => { clearInterval(timer.current); setIdx(i => (i - 1 + SERVICES.length) % SERVICES.length) }
   const goNext = ()  => { clearInterval(timer.current); setIdx(i => (i + 1) % SERVICES.length) }
 
-  /* coin drop */
   const triggerCoin = useCallback((sx, sy) => {
     if (running.current) return
     running.current = true
@@ -612,7 +658,6 @@ const Inner = forwardRef(function Inner(_, ref) {
         <div className="ss-blob ss-blob-1" />
         <div className="ss-blob ss-blob-2" />
 
-        {/* ── HEADER ── */}
         <div className="ss-wrap">
           <div className={`ss-hdr${vis ? ' in' : ''}`}>
             <div className="ss-eyebrow">
@@ -627,10 +672,9 @@ const Inner = forwardRef(function Inner(_, ref) {
             </p>
           </div>
 
-          {/* ── 2-COL ── */}
           <div className="ss-main">
 
-            {/* WALLET — LEFT (shows live dashboard balance) */}
+            {/* WALLET — LEFT */}
             <div className={`ss-wallet-col${vis ? ' in' : ''}`}>
               <p className="ss-wallet-lbl">Your Dashboard Balance</p>
 
@@ -688,7 +732,6 @@ const Inner = forwardRef(function Inner(_, ref) {
                 </div>
               </div>
 
-              {/* quick stats — pulled from dashboard data */}
               <div className="sw-stats">
                 <div className="sw-stat">
                   <div className="sw-stat-lbl">Savings Rate</div>
@@ -756,10 +799,10 @@ const Inner = forwardRef(function Inner(_, ref) {
               </div>
             </div>
 
-          </div>{/* ss-main */}
-        </div>{/* ss-wrap */}
+          </div>
+        </div>
 
-        {/* ── LIVE DASHBOARD KPI TICKER ── */}
+        {/* LIVE KPI TICKER */}
         <div className="ss-ticker-shell">
           <div className="ss-ticker">
             {[...TICKER, ...TICKER].map(([sym, price, ch, up], i) => (
@@ -776,7 +819,6 @@ const Inner = forwardRef(function Inner(_, ref) {
 
       </section>
 
-      {/* flying ₹ coin */}
       <div className="ss-coin" style={coinSt}>₹</div>
     </>
   )
